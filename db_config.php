@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "lolamarsh";
 $dbname = "user_capture";
 
 // Create connection

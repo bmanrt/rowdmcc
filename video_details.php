@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Details - Media Resource Portal</title>
-    <link rel="stylesheet" href="app/styles.css">
+    <link rel="stylesheet" href="media_capture.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -16,10 +16,9 @@ session_start();
             max-width: 800px;
             margin: 4rem auto;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: #ffffff;
             border-radius: 1rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
         }
 
         .details-header {
@@ -29,12 +28,12 @@ session_start();
 
         .details-header h1 {
             font-size: 2rem;
-            color: var(--white);
+            color: #333;
             margin-bottom: 0.5rem;
         }
 
         .details-header p {
-            color: var(--gray-400);
+            color: #666;
             font-size: 1rem;
         }
 
@@ -45,7 +44,7 @@ session_start();
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--gray-300);
+            color: #333;
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -55,106 +54,69 @@ session_start();
         .select2-container--default .select2-selection--multiple {
             width: 100%;
             padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--gray-700);
+            background: #fafafa;
+            border: 1px solid #ccc;
             border-radius: 0.5rem;
-            color: var(--white);
+            color: #333;
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
         }
 
         .form-group select option {
-            background: var(--gray-800);
-            color: var(--white);
+            background: #ffffff;
+            color: #333;
             padding: 0.75rem;
-        }
-
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-        }
-
-        .form-group select option[value=""] {
-            color: var(--gray-400);
         }
 
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            border-color: #ffcc00;
+            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
         }
 
         .select2-container--default .select2-selection--multiple {
             min-height: 45px;
-            background: rgba(255, 255, 255, 0.05);
+            background: #fafafa;
         }
 
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background: var(--primary);
+            background: #ffcc00;
             border: none;
-            color: var(--white);
+            color: #fff;
             border-radius: 0.25rem;
             padding: 0.25rem 0.5rem;
         }
 
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: var(--white);
-            margin-right: 0.5rem;
-        }
-
-        .select2-dropdown {
-            background: var(--gray-800);
-            border: 1px solid var(--gray-700);
-        }
-
-        .select2-container--default .select2-search--dropdown .select2-search__field {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--gray-700);
-            color: var(--white);
-        }
-
-        .select2-container--default .select2-results__option {
-            color: var(--white);
-        }
-
-        .select2-container--default .select2-results__option--highlighted[aria-selected] {
-            background: var(--primary);
-        }
-
-        .submit-btn {
-            display: inline-flex;
-            align-items: center;
+        .buttons {
+            display: flex;
+            gap: 1rem;
             justify-content: center;
-            gap: 0.5rem;
-            background: var(--primary);
-            color: var(--white);
+            margin-top: 2rem;
+        }
+
+        button {
             padding: 0.75rem 1.5rem;
+            background-color: #ffcc00;
+            color: #fff;
             border: none;
             border-radius: 0.5rem;
-            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 1rem;
+            transition: background-color 0.3s ease;
         }
 
-        .submit-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+        button:hover {
+            background-color: #e6b800;
         }
 
-        .submit-btn i {
-            font-size: 1.1rem;
+        button.secondary-button {
+            background-color: #f0f0f0;
+            color: #333;
         }
 
-        @media (max-width: 768px) {
-            .details-container {
-                margin: 2rem 1rem;
-                padding: 1.5rem;
-            }
+        button.secondary-button:hover {
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -185,10 +147,12 @@ session_start();
                 </select>
             </div>
 
-            <button type="submit" class="submit-btn">
-                <i class="fas fa-save"></i>
-                Save Details
-            </button>
+            <div class="buttons">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i>
+                    Save Details
+                </button>
+            </div>
         </form>
     </div>
 
@@ -278,7 +242,7 @@ session_start();
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = 'index.html';
+                    window.location.href = 'dashboard.html';
                 } else {
                     alert('Error saving video details: ' + (data.error || 'Unknown error'));
                 }
