@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video - Media Resource Portal</title>
+    <link rel="stylesheet" href="media_capture.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="upload-container">
+        <div class="upload-header">
+            <h1>Upload Video</h1>
+            <p>Share your video with the community</p>
+        </div>
+        <form id="uploadForm" action="media_capture.php" method="post" enctype="multipart/form-data">
+            <input type="file" id="fileInput" name="media" accept="video/*" style="display: none">
+            <div id="uploadArea" class="upload-area">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <p class="upload-text">Drag and drop your video here or <strong>browse</strong></p>
+                <p class="file-info">Supported formats: MP4, WebM, MOV (max: 500MB)</p>
+            </div>
+            <video id="videoPreview" controls></video>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </form>
+        <div class="buttons">
+            <button onclick="window.location.href='view_media.html'" class="secondary-button">View Captured Media</button>
+            <button onclick="window.location.href='dashboard.html'" class="secondary-button">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const videoPreview = document.getElementById('videoPreview');
+        const progressBar = document.querySelector('.progress-bar');
+        const progress = document.querySelector('.progress');
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            uploadArea.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // Check file type
+                if (!file.type.startsWith('video/')) {
+                    alert('Please upload a video file');
+                    return;
+                }
+                
+                // Check file size (500MB)
+                if (file.size > 500 * 1024 * 1024) {
+                    alert('File size exceeds 500MB limit');
+                    return;
+                }
+
+                // Update file input
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+
+                // Show video preview
+                videoPreview.style.display = 'block';
+                videoPreview.src = URL.createObjectURL(file);
+
+                // Submit form automatically
+                document.getElementById('uploadForm').submit();
+            }
+        }
+
+        // Prevent defaults for drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle file selection
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('drop', handleDrop);
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+    </script>
+</body>
+</html>
